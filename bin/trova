@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+set -e
+
+# Disable WebKitGTK DMA-BUF compositing issues on Wayland
+export WEBKIT_DISABLE_COMPOSITING_MODE=1
+export WEBKIT_DISABLE_DMABUF_RENDERER=1
+
+# Resolve canonical script path even when invoked through a symlink
+REAL_SCRIPT="$(readlink -f "${BASH_SOURCE[0]}")"
+APP_ROOT="$(cd "$(dirname "$REAL_SCRIPT")/.." && pwd)"
+VENV_PYTHON="$HOME/apps/trova/bin/python3"
+
+if [ ! -f "$VENV_PYTHON" ]; then
+    if [ -f "$HOME/apps/omatrova/bin/python3" ]; then
+        VENV_PYTHON="$HOME/apps/omatrova/bin/python3"
+    elif [ -f "$HOME/apps/omathonny/bin/python3" ]; then
+        VENV_PYTHON="$HOME/apps/omathonny/bin/python3"
+    else
+        VENV_PYTHON="$(which python3)"
+    fi
+fi
+
+exec "$VENV_PYTHON" "$APP_ROOT/backend/desktop.py" "$@"

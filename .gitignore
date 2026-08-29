@@ -1,0 +1,27 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Caches and test artifacts
+.pytest_cache/
+.coverage
+htmlcov/
+*.db.bak
+.cache/
+
+# Environments
+env/
+venv/
+ENV/
+apps/
+
+# Large local dumps / logs
+*.log
+scratch/
+trova-watchlist-*.json
+
+# OS / Editor files
+.DS_Store
+.vscode/
+.idea/

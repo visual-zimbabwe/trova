@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trova</title>
+  
+  <!-- Dynamic Omarchy Theme & Application Stylesheets -->
+  <link rel="stylesheet" href="css/omarchy-theme.css">
+  <link rel="stylesheet" href="css/trova.css">
+</head>
+<body>
+  <div class="app-layout">
+    <!-- Top Navigation Bar (In-App) -->
+    <header class="app-header">
+      <div class="brand">
+        <span class="brand-title">TROVA</span>
+      </div>
+
+      <!-- Search Bar in Top Nav Bar -->
+      <div class="search-section">
+        <div class="search-bar-wrapper">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input 
+            type="text" 
+            id="searchInput" 
+            class="search-input" 
+            placeholder="Search movie or TV show..." 
+            autocomplete="off" 
+            spellcheck="false"
+            autofocus
+          />
+          <button id="clearSearchBtn" class="clear-btn" title="Clear search (Esc)" style="display:none;">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+          <span class="search-shortcut-badge"><kbd>/</kbd></span>
+        </div>
+
+        <!-- Live Search Autocomplete Tray -->
+        <div id="searchDropdown" class="search-dropdown" style="display:none;">
+          <ul id="searchResultsList" class="search-results-list"></ul>
+        </div>
+      </div>
+
+      <!-- Far Right Navigation Actions -->
+      <div class="nav-actions">
+        <button id="btnOpenSettings" class="btn-settings-icon" onclick="App.toggleSettings()" title="Streaming Services Settings (Press , or S)">
+          <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="main-container">
+      <!-- Content Area: Result or Empty State -->
+      <section id="contentArea" class="content-area">
+        <!-- Initial Empty State -->
+        <div id="emptyState" class="empty-state">
+          <div class="empty-state-icon">
+            <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="2" y1="12" x2="22" y2="12"></line>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+            </svg>
+          </div>
+          <h2>Global Streaming Availability</h2>
+          <p>Instant availability across Netflix, Prime Video, Max, Paramount+, and more.</p>
+
+          <!-- Recent Searches Shelf -->
+          <div class="home-shelf">
+            <div id="recentSearchesChips" class="suggestion-chips"></div>
+          </div>
+
+          <!-- Favorites Shelf -->
+          <div id="favoritesSection" class="home-shelf" style="display:none; margin-top: 14px;">
+            <div class="shelf-header-line">
+              <span class="shelf-label">Favorites</span>
+              <button id="btnViewAllFavs" class="btn-view-all" onclick="App.showAllFavorites()" style="display:none;"></button>
+            </div>
+            <div id="favoritesContainer" class="favorites-shelf-groups">
+              <div id="favMoviesGroup" class="fav-shelf-row" style="display:none;">
+                <span class="fav-sub-label">Movies</span>
+                <div id="favMoviesChips" class="suggestion-chips"></div>
+              </div>
+              <div id="favTvGroup" class="fav-shelf-row" style="display:none;">
+                <span class="fav-sub-label">TV Series</span>
+                <div id="favTvChips" class="suggestion-chips"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Loading State -->
+        <div id="loadingState" class="loading-state" style="display:none;">
+          <div class="spinner"></div>
+          <p>Fetching global availability...</p>
+        </div>
+
+        <!-- Dedicated All Favorites View (Shift+F) -->
+        <div id="allFavoritesView" class="all-favorites-view" style="display:none;">
+          <div class="fav-view-header">
+            <div class="fav-header-left">
+              <h2 class="fav-view-title">Favorites</h2>
+              <div id="favTypeTabs" class="fav-type-tabs">
+                <button id="favTabAll" class="fav-tab active" onclick="App.setFavMediaTypeFilter('all')">All <span id="favCountAll" class="tab-count">0</span></button>
+                <button id="favTabMovies" class="fav-tab" onclick="App.setFavMediaTypeFilter('movie')">Movies <span id="favCountMovies" class="tab-count">0</span></button>
+                <button id="favTabTv" class="fav-tab" onclick="App.setFavMediaTypeFilter('tv')">TV Series <span id="favCountTv" class="tab-count">0</span></button>
+              </div>
+            </div>
+            <div class="fav-search-box">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <input 
+                id="favFilterInput" 
+                type="text" 
+                placeholder="Filter favorites..." 
+                autocomplete="off" 
+                spellcheck="false"
+              />
+            </div>
+          </div>
+          <div id="favGridContainer" class="fav-sections-container"></div>
+        </div>
+
+        <!-- Title Availability Results Container (Paradigm 2) -->
+        <div id="availabilityView" class="availability-view" style="display:none;">
+          <!-- Top Title Metadata Bar -->
+          <div class="title-header">
+            <div class="title-meta">
+              <div class="title-line">
+                <h1 id="selectedTitle" class="title-text"></h1>
+                <button id="btnFavStar" class="btn-star" onclick="App.toggleFavorite()" title="Toggle Favorite (Press F)">
+                  <svg class="star-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                  </svg>
+                </button>
+              </div>
+              <div id="titleSubtext" class="title-subtext"></div>
+            </div>
+            <button id="btnWatchTrailer" class="btn-trailer" onclick="App.playTrailer()" style="display:none;" title="Play Trailer in MPV">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor">
+                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+              </svg>
+              <span>Watch Trailer</span>
+            </button>
+          </div>
+
+          <!-- Tier 1: Instant Local Hero Card -->
+          <div id="localHeroCard" class="local-hero-card"></div>
+
+          <!-- Tier 2: Interactive Service Filter Toolbar -->
+          <div id="serviceFilterBar" class="service-filter-bar"></div>
+
+          <!-- Tier 3: Regional Bento Grid -->
+          <div id="regionalGridContainer" class="regional-grid-container"></div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Pure Minimalist Settings Modal -->
+    <div id="settingsModal" class="settings-modal-backdrop" style="display:none;" onclick="App.handleSettingsBackdropClick(event)">
+      <div class="settings-modal-panel">
+        <div class="settings-header">
+          <div class="settings-title-block">
+            <h2 class="settings-title">Streaming Services</h2>
+            <p class="settings-subtitle">Select which platforms to include in search availability.</p>
+          </div>
+          <button class="settings-close-btn" onclick="App.closeSettings()" title="Close Settings (Esc or ,)">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+
+        <div id="settingsServicesList" class="settings-services-list"></div>
+
+        <div class="settings-footer">
+          <button class="btn-settings-reset" onclick="App.resetSettingsToDefaults()">Reset to Defaults (4 Services)</button>
+          <button class="btn-settings-done" onclick="App.closeSettings()">Done</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Minimal Keyboard Hints Footer -->
+    <footer class="app-footer">
+      <div class="hotkey-hints">
+        <span><kbd>/</kbd> search</span>
+        <span><kbd>1</kbd>-<kbd>4</kbd> filter</span>
+        <span><kbd>f</kbd> fav</span>
+        <span><kbd>⇧F</kbd> all favs</span>
+        <span><kbd>,</kbd> settings</span>
+        <span><kbd>Esc</kbd> clear</span>
+      </div>
+    </footer>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/store/themeStore.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
