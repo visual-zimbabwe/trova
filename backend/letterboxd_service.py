@@ -1,5 +1,5 @@
 """
-OmaTrova Letterboxd & Trakt Import Service
+Trova Letterboxd & Trakt Import Service
 Parses CSV and JSON movie lists, enriches titles, and imports into Watchlist.
 """
 

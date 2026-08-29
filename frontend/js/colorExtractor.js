@@ -1,4 +1,4 @@
-// OmaTrova Dominant Color Palette Extractor
+// Trova Dominant Color Palette Extractor
 
 const ColorExtractor = {
   extractDominantColor(imageUrl) {

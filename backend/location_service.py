@@ -132,8 +132,7 @@ class LocationService:
     def _check_user_config(self):
         """Tier 2: Check ~/.config/trova/config.json"""
         for config_path in [
-            Path.home() / ".config" / "trova" / "config.json",
-            Path.home() / ".config" / "omatrova" / "config.json"
+            Path.home() / ".config" / "trova" / "config.json"
         ]:
             if config_path.exists():
                 try:

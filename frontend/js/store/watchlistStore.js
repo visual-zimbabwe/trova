@@ -1,4 +1,4 @@
-// OmaTrova Reactive Watchlist Store
+// Trova Reactive Watchlist Store
 
 const WatchlistStore = {
   items: [],

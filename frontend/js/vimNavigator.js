@@ -1,4 +1,4 @@
-// OmaTrova Vim & Desktop Spatial Keyboard Navigation Engine
+// Trova Vim & Desktop Spatial Keyboard Navigation Engine
 // Supports pure vertical natural grid movement (j/k/h/l + Arrow keys)
 
 const VimNavigator = {

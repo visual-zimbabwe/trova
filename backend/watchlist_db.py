@@ -1,5 +1,5 @@
 """
-OmaTrova Watchlist & Persistent Database Service
+Trova Watchlist & Persistent Database Service
 Stores user watchlists, custom categories, watch tiers, and JSON backups.
 """
 
@@ -12,7 +12,7 @@ import random
 class WatchlistDb:
     def __init__(self, db_path=None):
         if db_path is None:
-            data_dir = os.path.expanduser("~/.local/share/omatrova")
+            data_dir = os.path.expanduser("~/.local/share/trova")
             os.makedirs(data_dir, exist_ok=True)
             self.db_path = os.path.join(data_dir, "watchlist.db")
         else:
@@ -185,7 +185,7 @@ class WatchlistDb:
         items = self.get_items()
         return {
             "version": "1.0",
-            "app": "OmaTrova",
+            "app": "Trova",
             "exported_at": time.time(),
             "total_items": len(items),
             "items": items

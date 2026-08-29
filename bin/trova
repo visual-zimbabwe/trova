@@ -11,9 +11,7 @@ APP_ROOT="$(cd "$(dirname "$REAL_SCRIPT")/.." && pwd)"
 VENV_PYTHON="$HOME/apps/trova/bin/python3"
 
 if [ ! -f "$VENV_PYTHON" ]; then
-    if [ -f "$HOME/apps/omatrova/bin/python3" ]; then
-        VENV_PYTHON="$HOME/apps/omatrova/bin/python3"
-    elif [ -f "$HOME/apps/omathonny/bin/python3" ]; then
+    if [ -f "$HOME/apps/omathonny/bin/python3" ]; then
         VENV_PYTHON="$HOME/apps/omathonny/bin/python3"
     else
         VENV_PYTHON="$(which python3)"
