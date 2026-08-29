@@ -1,5 +1,5 @@
 """
-OmaTrova TMDB API Service — Streamlined "Where to Stream" Engine
+Trova TMDB API Service — Streamlined "Where to Stream" Engine
 Resolves global streaming availability across Netflix, Prime Video, Max, and Paramount+ (USA only).
 """
 

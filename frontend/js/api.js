@@ -1,4 +1,4 @@
-// OmaTrova API Client
+// Trova API Client
 
 const API = {
   async getTheme() {

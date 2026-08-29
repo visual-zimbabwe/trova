@@ -1,4 +1,4 @@
-// OmaTrova Soundtrack Audio Player & Waveform Visualizer
+// Trova Soundtrack Audio Player & Waveform Visualizer
 
 const AudioVisualizer = {
   audio: null,

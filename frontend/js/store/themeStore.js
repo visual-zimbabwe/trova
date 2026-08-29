@@ -1,4 +1,4 @@
-// OmaTrova Live Omarchy System Theme Store
+// Trova Live Omarchy System Theme Store
 
 const ThemeStore = {
   currentTheme: null,
